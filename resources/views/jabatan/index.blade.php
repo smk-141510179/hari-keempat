@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <h1>Jabatan</h1>
-<a  href="{{url('jabatan/create')}}" class="btn btn-success  form-control">Tambah</a>
+<center><a  href="{{url('jabatan/create')}}" class="btn btn-success  form-control">Tambah</a></center>
 	<table border="1" class="table table-striped table-border table-hover">
 		<thead>
 			<tr>

@@ -22,27 +22,27 @@
 
           <center>
 
+<p><img width="200px" height="150px" src="<?php echo url('assets/image/') ?>/<?php echo $penggajian->tunjangan_pegawai->pegawai->photo; ?>" class="img-circle" alt="Cinque Terre" ></p>
 
+                        <h3>{{$penggajian->Tunjangan_Pegawai->Pegawai->User->name}}</h3>
 
-                        <h3>{{$penggajian->TunjanganPegawai->Pegawai->User->name}}</h3>
+                        <h4>{{$penggajian->Tunjangan_Pegawai->Pegawai->nip}}</h4>
 
-                        <h4>{{$penggajian->TunjanganPegawai->Pegawai->nip}}</h4>
-
-                        <b>@if($penggajian->tgl_pengambilan == ""&&$penggajian->status_pengambilan == "0")
+                        <b>@if($penggajian->tanggal_pengambilan == ""&&$penggajian->status_pengambilan == "0")
 
                             Gaji Belum Diambil
 
-                        @elseif($penggajian->tgl_pengambilan == ""||$penggajian->status_pengambilan == "0")
+                        @elseif($penggajian->tanggal_pengambilan == ""||$penggajian->status_pengambilan == "0")
 
                             Gaji Belum Diambil
 
                         @else
 
-                            Gaji Sudah Diambil Pada {{$penggajian->tgl_pengambilan}}
+                            Gaji Sudah Diambil Pada {{$penggajian->tanggal_pengambilan}}
 
                         @endif</b>
 
-                        <h5>Gaji Lembur Sebesar Rp.{{$penggajian->jumlah_uang_lembur}}<hr> Gaji Pokok Sebesar Rp.{{$penggajian->gaji_pokok}}<hr>Mendapat Tunjangan Sebesar Rp.{{$penggajian->TunjanganPegawai->Tunjangan->besaran_uang}}<hr>Jadi Total Gaji Rp.{{$penggajian->total_gaji}}
+                        <h5>Gaji Lembur Sebesar Rp.{{$penggajian->jumlah_uang_lembur}}<hr> Gaji Pokok Sebesar Rp.{{$penggajian->gaji_pokok}}<hr>Mendapat Tunjangan Sebesar Rp.{{$penggajian->Tunjangan_Pegawai->Tunjangan->besaran_uang}}<hr>Jadi Total Gaji Rp.{{$penggajian->total_gaji}}
 
                         </h5>
 

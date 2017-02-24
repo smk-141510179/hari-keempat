@@ -1,153 +1,121 @@
 @extends('layouts.app')
-@section('penggajian')
-    active
-@endsection
- 						
-@section('content1')
-				<div class="col-md-15 col-md-offset-0">
-                    <div class="panel panel-success">
-                        <div class="panel-body">
-        <div class="col-md-15 col-md-offset-0">
-            <div class="panel panel-success">
-			    <div class="panel-heading">Penggajian</div>
-	                <div class="panel-body">
-				        
-				        <table border="2" class="table table-success table-border table-hover">
-					<thead >
-					<tr>
-						<th>No</th>
-						<th>Pegawai</th>
-						<th>Jumlah Uang Tunjangan</th>
-						<th>Jumlah Jam Lembur</th>
-						<th>Jumlah Uang Lembur</th>
-						<th>gaji Pokok</th>
-						<th>Total Gaji</th>
-						<th>Tanggal Pengambilan</th>
-						<th>Status Pengambilan</th>
-						<th>Petugas Penerimaan</th>
-					</tr>
-					</thead>
-					@php $no=1;   @endphp
 
-					<tbody>
-					 @foreach($pegawai as $data)
-						<tr>
-						<td>{{$no++}}</td>
-						<td>{{$data->user->name}}</td>
-						<td>
+@section('content')
 
-					@foreach($tunjangan as $data1)
-													
-					@if($data1->pegawai_id == $data->id)
-					{{$data1->tunjangan->besar_uang}}
-					@php $a=$data1->tunjangan->besar_uang; ; @endphp
-					@endif
-					@endforeach
-					</td>
+<div class="col-md-12">
+
+   <div class="panel panel-info">
+
+        <div class="panel-heading">Penggajian</div>
+
+        <div class="panel-body">
+
+        <a class="btn btn-primary" href="{{url('penggajian/create')}}">Tambah Data</a><br><br>
+
+            <table class="table table-striped table-bordered table-hover">
+
+                        <thead>
+
+                            <tr class="bg-primary">
+
+                            <th>No</th>
+
+                            <th>Nama Pegawai</th>
+                            <th>Nip Pegawai</th> 
+                            <th>Photo</th>
+
+                            <th>Status Pengambilan</th>
+
+                            <th colspan="3"> <center>Opsi</center></th>
+
+                            </tr>
+
+                        </thead>
 
 
-					<td>					
-					@foreach($lemburp as $data2)
-					@if($data2->pegawai_id == $data->id)
-					{{$data2->Jumlah_jam}}
-					@php $b=$data2->Jumlah_jam*$data2->kategori->besar_uang; 
-					@endphp
 
-					@endif
-					@endforeach
-					</td>
+                        @php
 
-					<td>					
-					@foreach($lemburp as $data2)
-					@if($data2->pegawai_id == $data->id)
-					{{$data2->Jumlah_jam*$data2->kategori->besar_uang}}
-					@php $b=$data2->Jumlah_jam*$data2->kategori->besar_uang;
-					@endphp
-					@endif
-					@endforeach
-					</td>
+                            $no=1 ;
+
+                        @endphp
+
+                        <tbody>
+
+                        @foreach($penggajian as $penggajians)
+
+                        <td>{{$no++}}</td>                        
+
+                        <td>{{$penggajians->Tunjangan_Pegawai->Pegawai->User->name}}</td>
+                        <td>{{$penggajians->Tunjangan_Pegawai->Pegawai->nip}}</td>
+						<td><img src="assets/image/{{$penggajians->tunjangan_pegawai->pegawai->photo}}" width="100" height="100">
+
+                        </td>
+
+                        <td><b>@if($penggajians->tanggal_pengambilan == ""&&$penggajians->status_pengambilan == "0")
+
+                        Gaji Belum Diambil
+
+                        		<div >
+
+                                    <a class="btn btn-primary" href="{{route('penggajian.edit',$penggajians->id)}}">Ubah Pengambilan</a>
+
+                                </div>
+
+                            
+
+                        @elseif($penggajians->tanggal_pengambilan == ""||$penggajians->status_pengambilan == "0")
+
+                            Gaji Belum Diambil
+
+                            <div>
+
+                                    <a class="btn btn-primary" href="{{route('penggajian.edit',$penggajians->id)}}">Ubah Pengambilan</a>
+
+                                </div>
+
+                        @else
+
+                            Gaji Sudah Diambil Pada {{$penggajians->tanggal_pengambilan}}
+
+                        @endif</b></td>
 
 
-					<td>
-					{{$data->golongan->besar_uang+$data->jabatan->besar_uang}}</td>
-					@php $c=$data->golongan->besar_uang+$data->jabatan->besar_uang;
-					@endphp
 
-					<td>{{$a + $b + $c}}</td>
-					<td>
-													
-					@foreach($tunjangan as $data1 )
-													
-					@foreach($penggajian as $data3)
-					@if($data3->tunjangan_pegawai_id == $data1->id && $data1->pegawai->id == $data->id )  
-					{{$data3->status_pengambilan}}
-					@elseif($data3->tunjangan_pegawai_id != $data1->id && $data1->pegawai->id != $data->id )
-														
-					@elseif($data3->tunjangan_pegawai_id == $data1->id && $data1->pegawai->id != $data->id )
-															
-					@else
-				Belum diambil
-					@endif
-					@endforeach
-					@endforeach
-					</td>
-					<td>@foreach($tunjangan as $data1 )
-					@foreach($penggajian as $data3)
-					@if($data3->tunjangan_pegawai_id == $data1->id && $data1->pegawai->id == $data->id )  
-					{{$data3->status_pengambilan}}
-					@elseif($data3->tunjangan_pegawai_id != $data1->id && $data1->pegawai->id != $data->id )
-														
-					@elseif($data3->tunjangan_pegawai_id == $data1->id && $data1->pegawai->id != $data->id )
-															
-					@else
-				Belum diambial
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/penggajian') }}">
-					     {{ csrf_field() }}
-							@foreach($tunjangan as $data1)
-							@if($data1->pegawai_id == $data->id)
-				   <input type="hidden" name="tunjangan_pegawai_id" value="{{$data1->id}}">
-							@php $a=$data1->tunjangan->besar_uang; ; @endphp
-							@endif
-						    @endforeach
 
-							@foreach($lemburp as $data2)
 
-				            @if($data2->pegawai_id == $data->id)
-					<input type="hidden" name="jumlah_jam_lembur" value="{{$data2->Jumlah_jam}}">
-					<input type="hidden" name="jumlah_uang_lembur" value="{{$data2->Jumlah_jam*$data2->kategori->besar_uang}}">
-					        @endif
-				            @endforeach
-				    <input type="hidden" name="gaji_pokok" value="{{$data->golongan->besar_uang+$data->jabatan->besar_uang}}">
-					<input type="hidden" name="tanggal_pengambilan" value="{{date('Y-m-d')}}" >
-					<input type="hidden" name="status_pengambilan" value="1" >
-					<input type="hidden" name="petugas_penerima" value="B.keuangan">
-					<div class="form-group">
-				    <div class="col-md-10 col-md-offset-0">
-				    <button type="submit" class="btn btn-primary form-control">
-				Ambil
-			    </button>
-			</div>
-			</div>
-		   </form>
-       @endif
-	@endforeach
-	@endforeach
+                        </h5>
 
-													
-			</td>
-												<td>dj</td>
-											</tr>
-											@endforeach
-										</tbody>
-									</table>
-				                </div>
-				            </div>
-				        </div>
-	        		</div>
-        	</div>
-        </div>
+                        
 
- 						</div>
-                    </div>
+                                <td><a class="btn btn-primary form-control" href="{{route('penggajian.show',$penggajians->id)}}">Lihat</a></td>
+
+                                     <td>{!!Form::open(['method'=>'DELETE','route'=>['penggajian.destroy',$penggajians->id]])!!}
+
+                                    {!!Form::submit('Delete',['class'=>'btn btn-danger col-md-12'])!!}</td>
+
+                                    {!!Form::close()!!}
+
+                                
+
+                        </center>
+
+                        </div> 
+
+                          </tbody>
+
+                        @endforeach
+
+                        
+
+                    </table>
+
                 </div>
+
+
+
+           
+
+        
+
 @endsection
